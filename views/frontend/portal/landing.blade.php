@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -72,12 +73,12 @@
                 </div>
                 <div class="flex items-center space-x-4">
                     @if(session('warga_id') || session('kades_id') || session('rt_id'))
-                        <a href="{{ route('portal.dashboard') }}"
+                        <a href="{{ plugin_route('portal.dashboard') }}"
                             class="text-gray-600 hover:text-blue-600 font-medium px-3 py-2 transition-colors">Dashboard</a>
                     @else
-                        <a href="{{ route('portal.login') }}"
+                        <a href="{{ plugin_route('portal.login') }}"
                             class="text-gray-600 hover:text-blue-600 font-medium px-3 py-2 transition-colors hidden sm:block">Masuk</a>
-                        <a href="{{ route('warga.register') }}"
+                        <a href="{{ plugin_route('warga.register') }}"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 transform hover:-translate-y-0.5">Daftar
                             Akun</a>
                     @endif
@@ -107,7 +108,7 @@
             <!-- Tracking Form -->
             <div
                 class="max-w-xl mx-auto bg-white p-3 rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 mb-12 animate-slide-up">
-                <form action="{{ route('portal.landing') }}" method="GET" class="flex items-center">
+                <form action="{{ plugin_route('portal.landing') }}" method="GET" class="flex items-center">
                     <div class="relative flex-grow">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <i class="fa fa-search text-gray-400"></i>
@@ -131,7 +132,7 @@
                             class="bg-white rounded-3xl p-8 border border-gray-100 shadow-xl shadow-gray-200/40 relative overflow-hidden">
                             <div
                                 class="absolute top-0 left-0 w-2 h-full 
-                                                        {{ $trackResult->status == 'pending' ? 'bg-yellow-400' : ($trackResult->status == 'processing' ? 'bg-blue-400' : ($trackResult->status == 'approved' ? 'bg-green-400' : 'bg-red-400')) }}">
+                                                                                                {{ $trackResult->status == 'pending' ? 'bg-yellow-400' : ($trackResult->status == 'processing' ? 'bg-blue-400' : ($trackResult->status == 'approved' ? 'bg-green-400' : 'bg-red-400')) }}">
                             </div>
 
                             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
@@ -300,7 +301,7 @@
                         <p class="text-sm text-gray-500 mb-6 line-clamp-2">Layanan pengajuan {{ $service->name }} secara
                             online untuk warga.</p>
 
-                        <a href="{{ route('warga.form.get', $service->slug) }}"
+                        <a href="{{ plugin_route('warga.form.get', $service->slug) }}"
                             class="inline-flex items-center text-sm font-semibold text-blue-600 group-hover:text-blue-700">
                             Ajukan Sekarang <i
                                 class="fa fa-arrow-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>

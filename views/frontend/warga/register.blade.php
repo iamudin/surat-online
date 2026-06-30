@@ -30,7 +30,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('warga.register.submit') }}" method="POST" class="space-y-4">
+                <form action="{{ plugin_route('warga.register.submit') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Nomor Induk Kependudukan (NIK)</label>
@@ -78,7 +78,7 @@
                 
                 <div class="mt-8 text-center">
                     <p class="text-sm text-gray-600">
-                        Sudah punya akun? <a href="{{ route('portal.login') }}" class="font-medium text-blue-600 hover:text-blue-500">Masuk di sini</a>
+                        Sudah punya akun? <a href="{{ plugin_route('portal.login') }}" class="font-medium text-blue-600 hover:text-blue-500">Masuk di sini</a>
                     </p>
                 </div>
             </div>

@@ -27,7 +27,7 @@
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-sm">{{ session('error') }}</div>
                 @endif
 
-                <form action="{{ route('warga.login.submit') }}" method="POST" class="space-y-6">
+                <form action="{{ plugin_route('warga.login.submit') }}" method="POST" class="space-y-6">
                     @csrf
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Nomor Induk Kependudukan (NIK)</label>
@@ -44,7 +44,7 @@
                 
                 <div class="mt-8 text-center">
                     <p class="text-sm text-gray-600">
-                        Belum punya akun? <a href="{{ route('warga.register') }}" class="font-medium text-blue-600 hover:text-blue-500">Daftar sekarang</a>
+                        Belum punya akun? <a href="{{ plugin_route('warga.register') }}" class="font-medium text-blue-600 hover:text-blue-500">Daftar sekarang</a>
                     </p>
                 </div>
             </div>

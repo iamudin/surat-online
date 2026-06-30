@@ -8,13 +8,22 @@ use App\Models\Plugins\SuratOnline\SuratType;
 use App\Models\Plugins\SuratOnline\SuratRequest;
 use App\Models\Plugins\SuratOnline\SuratRequestData;
 use Illuminate\Support\Str;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class WargaSuratController extends Controller
+class WargaSuratController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            RedirectMiddleware::handle(),
+        ];
+    }
+
     public function dashboard(Request $request)
     {
         if (!$request->session()->has('warga_id')) {
-            return redirect()->route('warga.login');
+            return redirect(plugin_route('warga.login'));
         }
 
         $wargaId = $request->session()->get('warga_id');
@@ -27,13 +36,13 @@ class WargaSuratController extends Controller
     public function getForm(Request $request, $slug)
     {
         if (!$request->session()->has('warga_id')) {
-            return redirect()->route('portal.login')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect(plugin_route('portal.login'))->with('error', 'Silakan login terlebih dahulu.');
         }
 
         $warga = \App\Models\Plugins\SuratOnline\Warga::find($request->session()->get('warga_id'));
         if (!$warga) {
             $request->session()->forget(['warga_id', 'warga_nik', 'warga_name', 'rt_id', 'rt_name', 'rt_nomor']);
-            return redirect()->route('portal.login')->with('error', 'Akun Anda telah dihapus atau tidak ditemukan.');
+            return redirect(plugin_route('portal.login'))->with('error', 'Akun Anda telah dihapus atau tidak ditemukan.');
         }
 
         $type = SuratType::with('fields')->where('slug', $slug)->first();
@@ -145,7 +154,7 @@ class WargaSuratController extends Controller
     public function downloadSurat(Request $request, $id)
     {
         if (!$request->session()->has('warga_id')) {
-            return redirect()->route('warga.login');
+            return redirect(plugin_route('portal.login'));
         }
 
         $wargaId = $request->session()->get('warga_id');

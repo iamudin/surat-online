@@ -1,4 +1,4 @@
-<form id="dynamicSuratForm" action="{{ route('warga.form.store', $type->slug) }}" method="POST"
+<form id="dynamicSuratForm" action="{{ plugin_route('warga.form.store', $type->slug) }}" method="POST"
     enctype="multipart/form-data" class="space-y-4">
     @csrf
 
@@ -93,7 +93,7 @@
     @endforeach
 
     <div class="pt-4 border-t border-gray-100 mt-6 flex justify-end gap-3">
-        <a href="{{ route('portal.dashboard') }}"
+        <a href="{{ plugin_route('portal.dashboard') }}"
             class="px-5 py-2.5 bg-white border border-gray-300 rounded-xl text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">Batal</a>
         <button type="submit"
             class="px-5 py-2.5 bg-blue-600 rounded-xl text-white text-sm font-medium hover:bg-blue-700 transition-colors flex items-center shadow-sm">

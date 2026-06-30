@@ -18,7 +18,7 @@
         <div class="text-lg font-semibold truncate"><i class="fa fa-map-marker-alt mr-2"></i> Dasbor RT {{ $rt->nomor_rt }} / RW {{ $rt->rw->nomor_rw ?? '-' }}</div>
         <div class="flex items-center space-x-3">
             <span class="text-sm font-medium opacity-90 hidden sm:block">Bpk/Ibu {{ session('rt_name') }}</span>
-            <form action="{{ route('portal.logout') }}" method="POST" class="inline">
+            <form action="{{ plugin_route('portal.logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="bg-green-700 hover:bg-green-800 text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors">
                     <i class="fa fa-sign-out-alt"></i>
@@ -57,7 +57,7 @@
                         <p class="text-xs text-gray-500 mb-1">NIK: {{ $warga->nik }}</p>
                         <p class="text-xs text-gray-500 mb-3 line-clamp-2">{{ $warga->address }}</p>
                         
-                        <form action="{{ route('portal.rt.verify_warga', $warga->id) }}" method="POST" onsubmit="return confirm('Yakin data KTP valid?')">
+                        <form action="{{ plugin_route('portal.rt.verify_warga', $warga->id) }}" method="POST" onsubmit="return confirm('Yakin data KTP valid?')">
                             @csrf
                             <button type="submit" class="w-full bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-lg hover:bg-blue-700 transition"><i class="fa fa-check mr-1"></i> Verifikasi Valid</button>
                         </form>
@@ -70,11 +70,11 @@
 
         <!-- Statistics -->
         <div class="grid grid-cols-2 gap-4 mb-6">
-            <a href="{{ route('portal.dashboard', ['validasi' => 'belum']) }}" class="block bg-white rounded-2xl p-4 border {{ request('validasi') == 'belum' ? 'border-yellow-400 ring-2 ring-yellow-200' : 'border-gray-100 hover:border-yellow-300' }} shadow-sm text-center transition-all">
+            <a href="{{ plugin_route('portal.dashboard', ['validasi' => 'belum']) }}" class="block bg-white rounded-2xl p-4 border {{ request('validasi') == 'belum' ? 'border-yellow-400 ring-2 ring-yellow-200' : 'border-gray-100 hover:border-yellow-300' }} shadow-sm text-center transition-all">
                 <div class="text-sm text-gray-500 mb-1">Belum Divalidasi</div>
                 <div class="text-2xl font-bold text-yellow-600">{{ $stats['belum_divalidasi'] }}</div>
             </a>
-            <a href="{{ route('portal.dashboard', ['validasi' => 'sudah']) }}" class="block bg-white rounded-2xl p-4 border {{ request('validasi') == 'sudah' ? 'border-green-400 ring-2 ring-green-200' : 'border-gray-100 hover:border-green-300' }} shadow-sm text-center transition-all">
+            <a href="{{ plugin_route('portal.dashboard', ['validasi' => 'sudah']) }}" class="block bg-white rounded-2xl p-4 border {{ request('validasi') == 'sudah' ? 'border-green-400 ring-2 ring-green-200' : 'border-gray-100 hover:border-green-300' }} shadow-sm text-center transition-all">
                 <div class="text-sm text-gray-500 mb-1">Sudah Divalidasi</div>
                 <div class="text-2xl font-bold text-green-600">{{ $stats['sudah_divalidasi'] }}</div>
             </a>
@@ -91,7 +91,7 @@
                 <p class="text-sm text-gray-500">Daftar permohonan surat dari warga RT {{ $rt->nomor_rt }}</p>
             </div>
             @if(request('validasi'))
-                <a href="{{ route('portal.dashboard') }}" class="text-xs text-blue-600 hover:text-blue-800 font-medium bg-blue-50 px-3 py-1 rounded-full"><i class="fa fa-sync-alt mr-1"></i>Tampilkan Semua</a>
+                <a href="{{ plugin_route('portal.dashboard') }}" class="text-xs text-blue-600 hover:text-blue-800 font-medium bg-blue-50 px-3 py-1 rounded-full"><i class="fa fa-sync-alt mr-1"></i>Tampilkan Semua</a>
             @endif
         </div>
 
@@ -184,7 +184,7 @@
                                         <h4 class="text-xs font-semibold text-gray-500 mb-1">{{ $field->field_name }}</h4>
                                         <div class="text-sm text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-100">
                                             @if($field->field_type == 'file' && $data->file_path)
-                                                <a href="{{ url($data->file_path) }}" target="_blank" class="text-blue-600 hover:underline"><i class="fa fa-paperclip mr-1"></i> Lihat Lampiran</a>
+                                                <a href="{{ media($data->file_path)->url() }}" target="_blank" class="text-blue-600 hover:underline"><i class="fa fa-paperclip mr-1"></i> Lihat Lampiran</a>
                                             @elseif($field->field_type == 'array')
                                                 @php $arr = json_decode($data->field_value, true) ?? []; @endphp
                                                 @if(count($arr) > 0)

@@ -36,7 +36,7 @@
         <div class="flex items-center space-x-3">
             <span class="text-sm font-medium opacity-90 hidden sm:block">Halo, {{ session('warga_name') }}</span>
 
-            <form action="{{ route('portal.logout') }}" method="POST" class="inline">
+            <form action="{{ plugin_route('portal.logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="text-white hover:text-gray-200 focus:outline-none">
                     <i class="fa fa-sign-out-alt text-xl"></i>
@@ -52,6 +52,12 @@
             <div
                 class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl relative mb-6 shadow-sm text-sm">
                 {{ session('success') }}
+            </div>
+        @endif
+           @if(session('danger'))
+            <div
+                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl relative mb-6 shadow-sm text-sm">
+                {{ session('danger') }}
             </div>
         @endif
         @if($errors->any())
@@ -78,10 +84,10 @@
                         @if(empty($warga->ktp_path))
                             <div class="mt-4 bg-white p-4 rounded-xl border border-yellow-100">
                                 <h4 class="font-semibold text-gray-800 mb-2">Upload Foto KTP</h4>
-                                <form action="{{ route('portal.warga.upload_ktp') }}" method="POST"
+                                <form action="{{ plugin_route('portal.warga.upload_ktp') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <input type="file" name="ktp_image" accept="image/jpeg,image/png"
+                                    <input type="file" name="ktp_image" accept="image/jpeg,image/png,image/webp"
                                         class="mb-3 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                         required>
                                     <button type="submit"
@@ -132,19 +138,19 @@
 
             <!-- Statistics -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <a href="{{ route('portal.dashboard', ['status' => 'pending']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'pending' ? 'border-yellow-400 ring-2 ring-yellow-200' : 'border-gray-100 hover:border-yellow-300' }} shadow-sm text-center transition-all">
+                <a href="{{ plugin_route('portal.dashboard', ['status' => 'pending']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'pending' ? 'border-yellow-400 ring-2 ring-yellow-200' : 'border-gray-100 hover:border-yellow-300' }} shadow-sm text-center transition-all">
                     <div class="text-sm text-gray-500 mb-1">Menunggu</div>
                     <div class="text-2xl font-bold text-yellow-600">{{ $stats['pending'] }}</div>
                 </a>
-                <a href="{{ route('portal.dashboard', ['status' => 'processing']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'processing' ? 'border-blue-400 ring-2 ring-blue-200' : 'border-gray-100 hover:border-blue-300' }} shadow-sm text-center transition-all">
+                <a href="{{ plugin_route('portal.dashboard', ['status' => 'processing']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'processing' ? 'border-blue-400 ring-2 ring-blue-200' : 'border-gray-100 hover:border-blue-300' }} shadow-sm text-center transition-all">
                     <div class="text-sm text-gray-500 mb-1">Diproses</div>
                     <div class="text-2xl font-bold text-blue-600">{{ $stats['processing'] }}</div>
                 </a>
-                <a href="{{ route('portal.dashboard', ['status' => 'approved']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'approved' ? 'border-green-400 ring-2 ring-green-200' : 'border-gray-100 hover:border-green-300' }} shadow-sm text-center transition-all">
+                <a href="{{ plugin_route('portal.dashboard', ['status' => 'approved']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'approved' ? 'border-green-400 ring-2 ring-green-200' : 'border-gray-100 hover:border-green-300' }} shadow-sm text-center transition-all">
                     <div class="text-sm text-gray-500 mb-1">Selesai</div>
                     <div class="text-2xl font-bold text-green-600">{{ $stats['approved'] }}</div>
                 </a>
-                <a href="{{ route('portal.dashboard', ['status' => 'rejected']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'rejected' ? 'border-red-400 ring-2 ring-red-200' : 'border-gray-100 hover:border-red-300' }} shadow-sm text-center transition-all">
+                <a href="{{ plugin_route('portal.dashboard', ['status' => 'rejected']) }}" class="block bg-white rounded-2xl p-4 border {{ request('status') == 'rejected' ? 'border-red-400 ring-2 ring-red-200' : 'border-gray-100 hover:border-red-300' }} shadow-sm text-center transition-all">
                     <div class="text-sm text-gray-500 mb-1">Ditolak</div>
                     <div class="text-2xl font-bold text-red-600">{{ $stats['rejected'] }}</div>
                 </a>
@@ -168,7 +174,7 @@
                     @endif
                 </h2>
                 @if(request('status'))
-                    <a href="{{ route('portal.dashboard') }}" class="text-xs text-blue-600 hover:text-blue-800 font-medium bg-blue-50 px-3 py-1 rounded-full"><i class="fa fa-sync-alt mr-1"></i>Tampilkan Semua</a>
+                    <a href="{{ plugin_route('portal.dashboard') }}" class="text-xs text-blue-600 hover:text-blue-800 font-medium bg-blue-50 px-3 py-1 rounded-full"><i class="fa fa-sync-alt mr-1"></i>Tampilkan Semua</a>
                 @endif
             </div>
 
@@ -218,7 +224,7 @@
                                 <i class="fa fa-eye mr-2"></i> Detail
                             </button>
                             @if($req->status == 'approved')
-                                <a href="{{ route('warga.surat.download', $req->id) }}" target="_blank"
+                                <a href="{{ plugin_route('warga.surat.download', $req->id) }}" target="_blank"
                                     class="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-600 text-sm font-medium rounded-xl border border-blue-100 hover:bg-blue-100 transition-colors">
                                     <i class="fa fa-download mr-2"></i> Download / Cetak
                                 </a>
@@ -239,7 +245,7 @@
                                         <h4 class="text-xs font-semibold text-gray-500 mb-1">{{ $field->field_name }}</h4>
                                         <div class="text-sm text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-100">
                                             @if($field->field_type == 'file' && $data->file_path)
-                                                <a href="{{ url($data->file_path) }}" target="_blank" class="text-blue-600 hover:underline"><i class="fa fa-paperclip mr-1"></i> Lihat Lampiran</a>
+                                                <a href="{{ media($data->file_path)->url() }}" target="_blank" class="text-blue-600 hover:underline"><i class="fa fa-paperclip mr-1"></i> Lihat Lampiran</a>
                                             @elseif($field->field_type == 'array')
                                                 @php $arr = json_decode($data->field_value, true) ?? []; @endphp
                                                 @if(count($arr) > 0)
@@ -331,7 +337,7 @@
                     <div class="mt-4 max-h-[70vh] overflow-y-auto px-1 hide-scrollbar">
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pb-4">
                             @foreach($suratTypes as $type)
-                                <a href="{{ route('warga.form.get', $type->slug) }}" class="block bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center cursor-pointer active:scale-95 transition-transform hover:shadow-md hover:border-blue-200">
+                                <a href="{{ plugin_route('warga.form.get', $type->slug) }}" class="block bg-white rounded-2xl shadow-sm border border-gray-100 p-4 text-center cursor-pointer active:scale-95 transition-transform hover:shadow-md hover:border-blue-200">
                                     <div class="w-12 h-12 mx-auto bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-3">
                                         <i class="fa fa-file-alt text-xl"></i>
                                     </div>
@@ -351,7 +357,7 @@
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" aria-hidden="true" @if(!$isProfileIncomplete) onclick="closeProfileModal()" @endif></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
             <div class="relative inline-block w-full xl:max-w-[40%] overflow-hidden text-left align-bottom transition-all transform bg-white rounded-t-3xl sm:rounded-3xl sm:my-8 sm:align-middle shadow-xl">
-                <form action="{{ route('portal.warga.update_profile') }}" method="POST">
+                <form action="{{ plugin_route('portal.warga.update_profile') }}" method="POST">
                     @csrf
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="flex justify-between items-center mb-4 border-b pb-3">

@@ -22,12 +22,12 @@
     <div
         class="fixed top-0 left-0 right-0 bg-blue-600 text-white shadow-md z-40 px-4 py-4 flex justify-between items-center safe-top">
         <div class="text-lg font-semibold truncate">
-            <a href="{{ route('portal.dashboard') }}" class="mr-2 hover:text-blue-200"><i
+            <a href="{{ plugin_route('portal.dashboard') }}" class="mr-2 hover:text-blue-200"><i
                     class="fa fa-arrow-left"></i></a>
             Pengajuan: {{ $type->name }}
         </div>
         <div class="flex items-center space-x-3">
-            <form action="{{ route('portal.logout') }}" method="POST" class="inline">
+            <form action="{{ plugin_route('portal.logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="text-white hover:text-gray-200 focus:outline-none">
                     <i class="fa fa-sign-out-alt text-xl"></i>
@@ -132,7 +132,7 @@
                                     confirmButton: 'bg-blue-600 text-white rounded-xl px-6 py-2'
                                 }
                             }).then(() => {
-                                window.location.href = "{{ route('portal.dashboard') }}";
+                                window.location.href = "{{ plugin_route('portal.dashboard') }}";
                             });
                         } else if (res.status === 422) {
                             let errors = res.body.errors;

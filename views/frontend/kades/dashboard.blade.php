@@ -18,7 +18,7 @@
         <div class="text-lg font-semibold truncate"><i class="fa fa-user-tie mr-2"></i> Dasbor Kepala Desa</div>
         <div class="flex items-center space-x-3">
             <span class="text-sm font-medium opacity-90 hidden sm:block">Halo, {{ session('kades_name') }}</span>
-            <form action="{{ route('portal.logout') }}" method="POST" class="inline">
+            <form action="{{ plugin_route('portal.logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors">
                     <i class="fa fa-sign-out-alt"></i>
@@ -186,7 +186,7 @@
             const errorDiv = document.getElementById('tteError');
             errorDiv.classList.add('hidden');
 
-            fetch("{{ route('portal.kades.sign_surat') }}", {
+            fetch("{{ plugin_route('portal.kades.sign_surat') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

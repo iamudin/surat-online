@@ -10,7 +10,7 @@ class Warga extends Model
     use HasFactory, \Leazycms\FLC\Traits\Fileable;
     use \Leazycms\Web\Models\Trait\BelongsToTenant;
 
-    protected $fillable = ['rw_id', 'rt_id', 'nik', 'name', 'phone', 'address', 'password', 'ktp_path', 'is_verified', 'is_blocked'];
+    protected $fillable = ['rt_id', 'nik', 'name', 'phone', 'address', 'password', 'ktp_path', 'is_verified', 'is_blocked'];
 
     protected $hidden = ['password'];
 

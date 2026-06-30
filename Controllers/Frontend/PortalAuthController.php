@@ -10,8 +10,18 @@ use App\Models\Plugins\SuratOnline\Rw;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
-class PortalAuthController extends Controller
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
+
+class PortalAuthController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            RedirectMiddleware::handle(),
+        ];
+    }
+
     public function landing(Request $request)
     {
         page_name('Portal Layanan Surat Desa');
@@ -44,7 +54,7 @@ class PortalAuthController extends Controller
     public function showLogin(Request $request)
     {
         if ($request->session()->has('kades_id') || $request->session()->has('warga_id') || $request->session()->has('rt_id')) {
-            return redirect()->route('portal.dashboard');
+            return redirect(plugin_route('portal.dashboard'));
         }
         page_name('Masuk Akun - Surat Online');
         return view('surat-online::frontend.portal.login');
@@ -71,7 +81,7 @@ class PortalAuthController extends Controller
                 $request->session()->put('warga_id', $warga->id);
                 $request->session()->put('warga_nik', $warga->nik);
                 $request->session()->put('warga_name', $warga->name);
-                return redirect()->route('portal.dashboard');
+                return redirect(plugin_route('portal.dashboard'));
             }
         }
 
@@ -81,7 +91,7 @@ class PortalAuthController extends Controller
             $request->session()->put('rt_id', $rt->id);
             $request->session()->put('rt_name', $rt->name);
             $request->session()->put('rt_nomor', $rt->nomor_rt);
-            return redirect()->route('portal.dashboard');
+            return redirect(plugin_route('portal.dashboard'));
         }
 
         // Try to login as Kades
@@ -93,7 +103,7 @@ class PortalAuthController extends Controller
                     $request->session()->put('kades_id', true);
                     $request->session()->put('kades_name', $dataPimpinan['nama'] ?? 'Kepala Desa');
                     $request->session()->put('kades_nip', $dataPimpinan['nip'] ?? '-');
-                    return redirect()->route('portal.dashboard');
+                    return redirect(plugin_route('portal.dashboard'));
                 }
             }
         }
@@ -184,7 +194,7 @@ class PortalAuthController extends Controller
                 $request->session()->put('warga_id', $warga->id);
                 $request->session()->put('warga_nik', $warga->nik);
                 $request->session()->put('warga_name', $warga->name);
-                return response()->json(['success' => true, 'redirect' => route('portal.dashboard')]);
+                return response()->json(['success' => true, 'redirect' => plugin_route('portal.dashboard')]);
             }
         }
 
@@ -230,7 +240,7 @@ class PortalAuthController extends Controller
         $request->session()->put('warga_nik', $warga->nik);
         $request->session()->put('warga_name', $warga->name);
 
-        return redirect()->route('portal.dashboard')->with('success', 'Pendaftaran berhasil!');
+        return redirect(plugin_route('portal.dashboard'))->with('success', 'Pendaftaran berhasil!');
     }
 
     public function getRts(Request $request)
@@ -243,6 +253,6 @@ class PortalAuthController extends Controller
     public function logout(Request $request)
     {
         $request->session()->forget(['kades_id', 'kades_nip', 'kades_name', 'warga_id', 'warga_nik', 'warga_name', 'rt_id', 'rt_name', 'rt_nomor']);
-        return redirect()->route('portal.login');
+        return redirect(plugin_route('portal.login'));
     }
 }

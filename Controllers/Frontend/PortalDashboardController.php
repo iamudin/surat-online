@@ -18,9 +18,10 @@ class PortalDashboardController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
+            RedirectMiddleware::handle(),
             function (Request $request, Closure $next) {
                 if (!$request->session()->has('warga_id') && !$request->session()->has('rt_id') && !$request->session()->has('kades_id')) {
-                    return redirect()->route('portal.login');
+                    return redirect(plugin_route('portal.login'));
                 }
                 return $next($request);
             },
@@ -48,9 +49,8 @@ class PortalDashboardController extends Controller implements HasMiddleware
 
         if (!$warga) {
             $request->session()->forget(['warga_id', 'warga_nik', 'warga_name', 'rt_id', 'rt_name', 'rt_nomor']);
-            return redirect()->route('portal.login')->with('error', 'Akun Anda telah dihapus atau tidak ditemukan.');
+            return redirect(plugin_route('portal.login'))->with('error', 'Akun Anda telah dihapus atau tidak ditemukan.');
         }
-        page_name('Dashboard Warga - Surat Online');
         $suratTypes = SuratType::where('is_active', true)->get();
 
         $query = SuratRequest::with(['type', 'data.field'])->where('warga_id', $warga_id);
@@ -79,7 +79,7 @@ class PortalDashboardController extends Controller implements HasMiddleware
 
         if (!$rt) {
             $request->session()->forget(['warga_id', 'warga_nik', 'warga_name', 'rt_id', 'rt_name', 'rt_nomor']);
-            return redirect()->route('portal.login')->with('error', 'Akun RT Anda telah dihapus atau tidak ditemukan.');
+            return redirect(plugin_route('portal.login'))->with('error', 'Akun RT Anda telah dihapus atau tidak ditemukan.');
         }
         page_name('Dashboard RT - Surat Online');
 
@@ -124,24 +124,27 @@ class PortalDashboardController extends Controller implements HasMiddleware
     public function uploadKtp(Request $request)
     {
         $request->validate([
-            'ktp_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'ktp_image' => 'required|file|mimes:jpeg,png,jpg,webp,pdf|max:2048',
         ]);
-
         $warga_id = $request->session()->get('warga_id');
         $warga = Warga::findOrFail($warga_id);
-
         // Use Fileable trait to upload file
         $path = $warga->addFile([
             'file' => $request->file('ktp_image'),
-            'purpose' => 'ktp',
-            'mime_type' => [$request->file('ktp_image')->getMimeType()]
+            'purpose' => 'ktp_image_' . $warga_id,
+            'mime_type' => ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf', 'image/webp'],
+            'random_name' => true
         ]);
 
         $warga->update([
             'ktp_path' => $path
         ]);
 
-        return back()->with('success', 'KTP berhasil diupload! Menunggu verifikasi dari RT atau Admin.');
+        if ($path) {
+            return back()->with('success', 'KTP berhasil diupload! Menunggu verifikasi dari RT atau Admin.');
+        } else {
+            return back()->with('danger', 'KTP gagal diupload. Pastikan format file sesuai dan ukuran tidak melebihi 2MB.');
+        }
     }
 
     public function verifyWarga(Request $request, $warga_id)
