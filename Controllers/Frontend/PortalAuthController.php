@@ -24,7 +24,7 @@ class PortalAuthController extends Controller implements HasMiddleware
 
     public function landing(Request $request)
     {
-        page_name('Portal Layanan Surat Desa');
+        plugin_page_name('Portal Layanan Surat Desa');
 
         $stats = [
             'pending' => \App\Models\Plugins\SuratOnline\SuratRequest::where('status', 'pending')->count(),
@@ -56,12 +56,13 @@ class PortalAuthController extends Controller implements HasMiddleware
         if ($request->session()->has('kades_id') || $request->session()->has('warga_id') || $request->session()->has('rt_id')) {
             return redirect(plugin_route('portal.dashboard'));
         }
-        page_name('Masuk Akun - Surat Online');
+        plugin_page_name('Masuk Akun - Surat Online');
         return view('surat-online::frontend.portal.login');
     }
 
     public function login(Request $request)
     {
+
 
         $request->validate([
             'username_or_nik' => 'required',

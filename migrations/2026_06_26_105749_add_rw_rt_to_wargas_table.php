@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::table('wargas', function (Blueprint $table) {
             $table->foreignId('rt_id')->constrained()->onDelete('cascade');
+            $table->foreignId('rw_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -23,6 +24,8 @@ return new class extends Migration {
         Schema::table('wargas', function (Blueprint $table) {
             $table->dropForeign(['rt_id']);
             $table->dropColumn(['rt_id']);
+            $table->dropForeign(['rw_id']);
+            $table->dropColumn(['rw_id']);
         });
     }
 };

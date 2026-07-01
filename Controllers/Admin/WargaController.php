@@ -38,27 +38,27 @@ class WargaController extends Controller
                     $btn = '';
                     if (!$row->is_verified && $row->ktp_path) {
                         $btn .= '<form action="' . route('admin.wargas.verify', $row->id) . '" method="POST" class="d-inline" onsubmit="return confirm(\'Yakin data KTP ini valid?\')">'
-                              . csrf_field()
-                              . '<button type="submit" class="btn btn-primary btn-sm mb-1 mr-1" title="Verifikasi Data"><i class="fa fa-check"></i></button>'
-                              . '</form>';
+                            . csrf_field()
+                            . '<button type="submit" class="btn btn-primary btn-sm mb-1 mr-1" title="Verifikasi Data"><i class="fa fa-check"></i></button>'
+                            . '</form>';
                     }
-                    
+
                     $blockBtnClass = $row->is_blocked ? 'btn-success' : 'btn-dark';
                     $blockBtnIcon = $row->is_blocked ? 'fa-unlock' : 'fa-ban';
                     $blockBtnTitle = $row->is_blocked ? 'Buka Blokir' : 'Blokir Warga';
                     $blockConfirm = $row->is_blocked ? 'Yakin ingin membuka blokir warga ini?' : 'Yakin ingin memblokir akses login warga ini?';
-                    
+
                     $btn .= '<form action="' . route('admin.wargas.toggleBlock', $row->id) . '" method="POST" class="d-inline" onsubmit="return confirm(\'' . $blockConfirm . '\')">'
-                          . csrf_field()
-                          . '<button type="submit" class="btn ' . $blockBtnClass . ' btn-sm mb-1 mr-1" title="' . $blockBtnTitle . '"><i class="fa ' . $blockBtnIcon . '"></i></button>'
-                          . '</form>';
-                    
+                        . csrf_field()
+                        . '<button type="submit" class="btn ' . $blockBtnClass . ' btn-sm mb-1 mr-1" title="' . $blockBtnTitle . '"><i class="fa ' . $blockBtnIcon . '"></i></button>'
+                        . '</form>';
+
                     if ($row->requests()->count() == 0) {
                         $btn .= '<form action="' . route('wargas.destroy', $row->id) . '" method="POST" class="d-inline" onsubmit="return confirm(\'Yakin ingin menghapus Warga ini?\')">'
-                              . csrf_field()
-                              . method_field('DELETE')
-                              . '<button type="submit" class="btn btn-danger btn-sm mb-1"><i class="fa fa-trash"></i></button>'
-                              . '</form>';
+                            . csrf_field()
+                            . method_field('DELETE')
+                            . '<button type="submit" class="btn btn-danger btn-sm mb-1"><i class="fa fa-trash"></i></button>'
+                            . '</form>';
                     }
                     return $btn;
                 })
@@ -72,7 +72,7 @@ class WargaController extends Controller
     public function verify($id)
     {
         $warga = Warga::findOrFail($id);
-        
+
         $warga->update([
             'is_verified' => true
         ]);
@@ -80,13 +80,14 @@ class WargaController extends Controller
         if ($warga->ktp_path) {
             try {
                 $warga->removeFileByPurposeAndChild('ktp');
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
 
             $file_path = public_path($warga->ktp_path);
             if (file_exists($file_path) && is_file($file_path)) {
                 @unlink($file_path);
             }
-            
+
             $warga->update(['ktp_path' => null]);
         }
 

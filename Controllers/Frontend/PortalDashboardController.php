@@ -131,7 +131,7 @@ class PortalDashboardController extends Controller implements HasMiddleware
         // Use Fileable trait to upload file
         $path = $warga->addFile([
             'file' => $request->file('ktp_image'),
-            'purpose' => 'ktp_image_' . $warga_id,
+            'purpose' => 'ktp',
             'mime_type' => ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf', 'image/webp'],
             'random_name' => true
         ]);

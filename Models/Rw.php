@@ -16,6 +16,11 @@ class Rw extends Model
     {
         return $this->hasMany(\App\Models\Plugins\SuratOnline\Rt::class);
     }
+
+    public function wargas()
+    {
+        return $this->hasMany(\App\Models\Plugins\SuratOnline\Warga::class);
+    }
 }
 
 

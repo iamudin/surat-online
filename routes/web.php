@@ -1,22 +1,4 @@
 <?php
-if (!function_exists('plugin_route')) {
-    function plugin_route($name, $parameters = [], $absolute = true)
-    {
-        $customDomain = get_option('surat-online-domain');
-        $host = request()->getHost();
-        
-        // Jika ada custom domain dan diakses melalui custom domain tersebut, gunakan rute .custom
-        $isCustom = $customDomain && $host === $customDomain;
-        $routeName = $name . ($isCustom ? '.custom' : '.main');
-        
-        if (\Illuminate\Support\Facades\Route::has($routeName)) {
-            return route($routeName, $parameters, $absolute);
-        }
-
-        // Fallback ke rute asli jika tidak ditemukan
-        return route($name, $parameters, $absolute);
-    }
-}
 
 // Public Landing Page
 // Main domain route
