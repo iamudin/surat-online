@@ -1,173 +1,65 @@
 <?php
 
 // Public Landing Page
-// Main domain route
-add_route("public", [
-    "name" => "portal.landing.main",
-    "path" => "surat-online",
-
-
-    "method" => "get",
-    "function" => "landing",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.landing.custom",
+add_plugin_public_route([
+    "name" => "portal.landing",
     "path" => "/",
-
-
     "method" => "get",
     "function" => "landing",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
 ]);
 
 // Auth & Registration Routes
-// Main domain route
-add_route("public", [
-    "name" => "portal.login.main",
-    "path" => "surat-online/login",
-
-
+add_plugin_public_route([
+    "name" => "portal.login",
+    "path" => "login",
     "method" => "get",
     "function" => "showLogin",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
 ]);
 
-// Custom domain route
-add_route("public", [
-    "name" => "portal.login.custom",
+add_plugin_public_route([
+    "name" => "portal.login.submit",
     "path" => "login",
-
-
-    "method" => "get",
-    "function" => "showLogin",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Main domain route
-add_route("public", [
-    "name" => "portal.login.submit.main",
-    "path" => "surat-online/login",
-
-
     "method" => "post",
     "function" => "login",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
 ]);
 
-// Custom domain route
-add_route("public", [
-    "name" => "portal.login.submit.custom",
-    "path" => "login",
-
-
-    "method" => "post",
-    "function" => "login",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Main domain route
-add_route("public", [
-    "name" => "portal.login.otp.request.main",
-    "path" => "surat-online/login/otp/request",
-
-
-    "method" => "post",
-    "function" => "requestOtp",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.login.otp.request.custom",
+add_plugin_public_route([
+    "name" => "portal.login.otp.request",
     "path" => "login/otp/request",
-
-
     "method" => "post",
     "function" => "requestOtp",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
 ]);
 
-// Main domain route
-add_route("public", [
-    "name" => "portal.login.otp.verify.main",
-    "path" => "surat-online/login/otp/verify",
-
-
-    "method" => "post",
-    "function" => "verifyOtp",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.login.otp.verify.custom",
+add_plugin_public_route([
+    "name" => "portal.login.otp.verify",
     "path" => "login/otp/verify",
-
-
     "method" => "post",
     "function" => "verifyOtp",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
 ]);
 
-// Main domain route
-add_route("public", [
-    "name" => "warga.register.main",
-    "path" => "surat-online/register",
-
-
+add_plugin_public_route([
+    "name" => "warga.register",
+    "path" => "register",
     "method" => "get",
     "function" => "showRegister",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
 ]);
 
-// Custom domain route
-add_route("public", [
-    "name" => "warga.register.custom",
+add_plugin_public_route([
+    "name" => "warga.register.submit",
     "path" => "register",
-
-
-    "method" => "get",
-    "function" => "showRegister",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Main domain route
-add_route("public", [
-    "name" => "warga.register.submit.main",
-    "path" => "surat-online/register",
-
-
     "method" => "post",
     "function" => "register",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
 ]);
 
-// Custom domain route
-add_route("public", [
-    "name" => "warga.register.submit.custom",
-    "path" => "register",
-
-
-    "method" => "post",
-    "function" => "register",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Main domain route
-add_route("public", [
-    "name" => "portal.logout.main",
-    "path" => "surat-online/logout",
-    "method" => "post",
-    "function" => "logout",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalAuthController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.logout.custom",
+add_plugin_public_route([
+    "name" => "portal.logout",
     "path" => "logout",
     "method" => "post",
     "function" => "logout",
@@ -175,126 +67,49 @@ add_route("public", [
 ]);
 
 // Dashboard & Profile
-// Main domain route
-add_route("public", [
-    "name" => "portal.dashboard.main",
-    "path" => "surat-online/dashboard",
-
-
-    "method" => "get",
-    "function" => "index",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.dashboard.custom",
+add_plugin_public_route([
+    "name" => "portal.dashboard",
     "path" => "dashboard",
-
-
     "method" => "get",
     "function" => "index",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
 ]);
 
-// Main domain route
-add_route("public", [
-    "name" => "portal.warga.upload_ktp.main",
-    "path" => "surat-online/warga/upload-ktp",
-
-
-    "method" => "post",
-    "function" => "uploadKtp",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.warga.upload_ktp.custom",
+add_plugin_public_route([
+    "name" => "portal.warga.upload_ktp",
     "path" => "warga/upload-ktp",
-
-
     "method" => "post",
     "function" => "uploadKtp",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
 ]);
 
-// Main domain route
-add_route("public", [
-    "name" => "portal.warga.update_profile.main",
-    "path" => "surat-online/warga/profile/update",
-
-
-    "method" => "post",
-    "function" => "updateProfile",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.warga.update_profile.custom",
+add_plugin_public_route([
+    "name" => "portal.warga.update_profile",
     "path" => "warga/profile/update",
-
-
     "method" => "post",
     "function" => "updateProfile",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
 ]);
 
-// Main domain route
-add_route("public", [
-    "name" => "portal.rt.verify_warga.main",
-    "path" => "surat-online/rt/warga/{id}/verify",
-
-
-    "method" => "post",
-    "function" => "verifyWarga",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.rt.verify_warga.custom",
+add_plugin_public_route([
+    "name" => "portal.rt.verify_warga",
     "path" => "rt/warga/{id}/verify",
-
-
     "method" => "post",
     "function" => "verifyWarga",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
 ]);
 
-// Main domain route
-add_route("public", [
-    "name" => "portal.rt.surat_validate.main",
-    "path" => "surat-online/rt/surat/{id}/validate",
-
-
-    "method" => "post",
-    "function" => "validateSurat",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "portal.rt.surat_validate.custom",
+add_plugin_public_route([
+    "name" => "portal.rt.surat_validate",
     "path" => "rt/surat/{id}/validate",
-
-
-    "method" => "post",
-    "function" => "validateSurat",
-
-
     "method" => "post",
     "function" => "validateSurat",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
 ]);
 
-// Main domain route
-add_route("public", [
-    "name" => "portal.kades.sign_surat.main",
-    "path" => "surat-online/kades/sign",
-
-
+add_plugin_public_route([
+    "name" => "portal.kades.sign_surat",
+    "path" => "kades/sign",
     "method" => "post",
     "function" => "kadesSignSurat",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
@@ -476,79 +291,26 @@ add_route('admin', [
     'show_in_sidebar' => false,
 ]);
 
-// Custom domain route
-add_route("public", [
-    "name" => "portal.kades.sign_surat.custom",
-    "path" => "kades/sign",
-
-
-    "method" => "post",
-    "function" => "kadesSignSurat",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\PortalDashboardController::class,
-]);
-
 // Warga Surat Request
-// Main domain route
-add_route("public", [
-    "name" => "warga.form.get.main",
-    "path" => "surat-online/form/{slug}",
-
-
+add_plugin_public_route([
+    "name" => "warga.form.get",
+    "path" => "form/{slug}",
     "method" => "get",
     "function" => "getForm",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\WargaSuratController::class,
 ]);
 
-// Custom domain route
-add_route("public", [
-    "name" => "warga.form.get.custom",
+add_plugin_public_route([
+    "name" => "warga.form.store",
     "path" => "form/{slug}",
-
-
-    "method" => "get",
-    "function" => "getForm",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\WargaSuratController::class,
-]);
-
-// Main domain route
-add_route("public", [
-    "name" => "warga.form.store.main",
-    "path" => "surat-online/form/{slug}",
-
-
     "method" => "post",
     "function" => "storeRequest",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\WargaSuratController::class,
 ]);
 
-// Custom domain route
-add_route("public", [
-    "name" => "warga.form.store.custom",
-    "path" => "form/{slug}",
-
-
-    "method" => "post",
-    "function" => "storeRequest",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\WargaSuratController::class,
-]);
-
-// Main domain route
-add_route("public", [
-    "name" => "warga.surat.download.main",
-    "path" => "surat-online/surat/{id}/download",
-
-
-    "method" => "get",
-    "function" => "downloadSurat",
-    "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\WargaSuratController::class,
-]);
-
-// Custom domain route
-add_route("public", [
-    "name" => "warga.surat.download.custom",
+add_plugin_public_route([
+    "name" => "warga.surat.download",
     "path" => "surat/{id}/download",
-
-
     "method" => "get",
     "function" => "downloadSurat",
     "controller" => \App\Http\Controllers\Plugins\SuratOnline\Frontend\WargaSuratController::class,

@@ -182,7 +182,6 @@ class PortalDashboardController extends Controller implements HasMiddleware
         ]);
 
         $rt_id = $request->session()->get('rt_id');
-
         $suratRequest = SuratRequest::whereHas('warga', function ($q) use ($rt_id) {
             $q->where('rt_id', $rt_id);
         })->findOrFail($id);

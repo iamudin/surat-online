@@ -293,7 +293,7 @@
     <script>
         function openValidateModal(id, isValid) {
             let form = document.getElementById('validateForm');
-            form.action = '{{ url("surat-online/rt/surat") }}/' + id + '/validate';
+            form.action = '{{ plugin_route("portal.rt.surat_validate", ["id" => "__ID__"]) }}'.replace('__ID__', id);
             document.getElementById('is_valid_input').value = isValid ? 1 : 0;
             document.getElementById('catatan_rt').value = '';
             
