@@ -24,7 +24,7 @@ class PortalAuthController extends Controller implements HasMiddleware
 
     public function landing(Request $request)
     {
-        plugin_page_name('Portal Layanan Surat Desa');
+        page_name('Portal Layanan Surat Desa');
 
         $stats = [
             'pending' => \App\Models\Plugins\SuratOnline\SuratRequest::where('status', 'pending')->count(),

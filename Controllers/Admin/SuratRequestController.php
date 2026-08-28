@@ -173,18 +173,22 @@ class SuratRequestController extends Controller
     public function uploadFinal(Request $request, $id)
     {
         $request->validate([
-            'final_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120'
+            'final_file' => $request->hasFile('final_file') ? 'required|file|mimes:pdf,jpg,jpeg,png|max:5120' : 'required|string'
         ]);
 
         $req = SuratRequest::findOrFail($id);
 
-        $file = $request->file('final_file');
-        
-        $path = $req->addFile([
-            'file' => $file,
-            'purpose' => 'signed_pdf',
-            'mime_type' => ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png']
-        ]);
+        if ($request->hasFile('final_file')) {
+            $file = $request->file('final_file');
+            
+            $path = $req->addFile([
+                'file' => $file,
+                'purpose' => 'signed_pdf',
+                'mime_type' => ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png']
+            ]);
+        } elseif ($request->has('final_file') && is_string($request->final_file)) {
+            $path = strip_tags($request->final_file);
+        }
 
         $req->update([
             'signed_pdf_path' => $path, // we use signed_pdf_path to store the final file for Warga
