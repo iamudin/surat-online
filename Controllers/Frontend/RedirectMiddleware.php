@@ -44,12 +44,19 @@ class RedirectMiddleware
                 }
 
                 // Jika diakses dari host asing (misal bekas custom domain) saat tidak ada setting custom domain,
-                // arahkan kembali ke domain utama/tenant aktif.
-                $activeDomain = config('modules.multisite_enabled') && function_exists('tenant') && tenant()
-                    ? tenant()->domain
-                    : parse_url(config('app.url'), PHP_URL_HOST);
+                // arahkan kembali ke domain utama/tenant aktif (atau parked domain jika aktif).
+                $isAllowedTenantHost = false;
+                $activeDomain = parse_url(config('app.url'), PHP_URL_HOST);
 
-                if ($host !== $activeDomain && $activeDomain) {
+                if (config('modules.multisite_enabled') && function_exists('tenant') && tenant()) {
+                    $parkedDomain = (function_exists('get_option') ? get_option('parked_domain') : null);
+                    $activeDomain = $parkedDomain ?: tenant()->domain;
+                    if ($host === tenant()->domain || ($parkedDomain && $host === $parkedDomain)) {
+                        $isAllowedTenantHost = true;
+                    }
+                }
+
+                if (!$isAllowedTenantHost && $host !== $activeDomain && $activeDomain) {
                     $url = $request->getScheme() . '://' . $activeDomain . '/' . ltrim($path, '/');
                     if ($request->getQueryString()) {
                         $url .= '?' . $request->getQueryString();
